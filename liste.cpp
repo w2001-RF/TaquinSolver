@@ -137,8 +137,6 @@ Objet* chercherUnObjet (Liste* li, Objet* objetCherche) {
   }
   return trouve ? objet : NULL;
 }
-
-
 // EXTRAIRE UN OBJET D'UNE LISTE
 
 // extraire l'objet en t�te de la liste li

@@ -3,7 +3,6 @@
 #include <string.h>
 #include "solution.h"
 
-
 int main() {
 	
 	Probleme* probleme = (Probleme*) malloc(sizeof(probleme));

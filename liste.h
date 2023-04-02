@@ -62,7 +62,7 @@ booleen  extraireUnObjet        (Liste* li, Objet* objet);
 void     detruireListe          (Liste* li);
 void     recopierListe          (Liste* l1, Liste* l2);
 
-booleen chercherUnObjetBis (Liste* li, Objet* objetCherche);
+booleen chercherUnObjetBis      (Liste* li, Objet* objetCherche);
 
 //Element* pPremier             (Liste* li);
 //Element* pDernier             (Liste* li);
