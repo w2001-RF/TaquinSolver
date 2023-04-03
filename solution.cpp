@@ -140,7 +140,7 @@ static char* afficher_solution(Noeud* solution) {
     if (noeud == NULL) strcat(path,"Aucune solution trouvée!");
     else{
         while (noeud != NULL) {
-            //matriceEtat(noeud->etat);
+            matriceEtat(noeud->etat);
             
             strcpy(tmp,path);
             strcpy(path, matrice_toString(noeud->etat));
@@ -151,11 +151,14 @@ static char* afficher_solution(Noeud* solution) {
             //printf("\npath = %s\n",path);
             //printf("\ncurrent = 0x%0x , parent = 0x%0x",noeud, noeud->parent);
             noeud = noeud->parent;
-            
         }
     }
     free(noeud);
     free(tmp);
+    
+    //remove the last ->
+    path[strlen(path) - 3] = '\0';
+    
     return path;
 }
 
@@ -332,7 +335,6 @@ Contour* creer_Contour(Noeud* noeud, int next_f){
 	return res;
 }
 
-
 static Contour* EPL_CONTOUR(Probleme* probleme, Noeud* noeud, int f_limite){
 	int next_f = INFINI;
 	
@@ -406,6 +408,8 @@ Etat creer_etat() {
         printf("Erreur: Entrez exactement 9 nombres entiers separes par des espaces.\n");
         goto read;
     }
+    
+    //for(int i=0; i<9; i++) printf("%2d", a[i]);
     
 	return a;
 }
