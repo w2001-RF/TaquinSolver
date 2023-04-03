@@ -54,8 +54,8 @@ int main() {
 				probleme->etat_initial = creer_etat();
 				
 				fflush(stdin);
-				printf("\n\n---------------------------------------------------\n\n");
-				printf("\nEntrer l'etat but du taquin : \n");
+				printf("\n---------------------------------------------------\n");
+				printf("Entrer l'etat but du taquin : \n");
 				printf("(les valeurs en un seul ligne separe par espace)\n");
 				probleme->etat_but = creer_etat();
 				break;
