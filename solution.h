@@ -48,4 +48,6 @@ void     AEtoile   (Probleme* probleme);
 Contour* creer_Contour(Noeud* noeud, int next_f); 
 void     IDAEtoile (Probleme* probleme);
 
+
+Etat     creer_etat();
 #endif

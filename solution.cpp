@@ -107,7 +107,7 @@ static void matriceEtat(Etat e){
 }
 
 
-static char* afficher_solution(Noeud* solution) {
+/*static char* afficher_solution(Noeud* solution) {
     char* path = (char*) malloc(1000*sizeof(char)); strcpy(path, "");
     char* tmp  = (char*) malloc(1000*sizeof(char));
     Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
@@ -129,6 +129,33 @@ static char* afficher_solution(Noeud* solution) {
     }
     free(tmp);
     free(noeud);
+    return path;
+}*/
+
+static char* afficher_solution(Noeud* solution) {
+    char* path = (char*) malloc(10*sizeof(char)); strcpy(path, "");
+    char* tmp  = (char*) malloc(10*sizeof(char));
+    Noeud* noeud = solution;
+    
+    if (noeud == NULL) strcat(path,"Aucune solution trouvée!");
+    else{
+        while (noeud != NULL) {
+            //matriceEtat(noeud->etat);
+            
+            strcpy(tmp,path);
+            strcpy(path, matrice_toString(noeud->etat));
+            
+            strcat(path, " -> ");
+            strcat(path, tmp);
+            
+            //printf("\npath = %s\n",path);
+            //printf("\ncurrent = 0x%0x , parent = 0x%0x",noeud, noeud->parent);
+            noeud = noeud->parent;
+            
+        }
+    }
+    free(noeud);
+    free(tmp);
     return path;
 }
 
@@ -242,66 +269,6 @@ Noeud* NOEUD_FILS(Probleme* probleme, Noeud* parent, Action a) {
 					  (parent->cout_de_chemin - heuristique(probleme, parent->etat) + COUT_DE_CHEMIN(probleme, parent->etat, a, new_etat)) + heuristique(probleme, new_etat));
 }
 
-/*void AEtoile   (Probleme* probleme){
-  Liste* actions = creerListe(0, toString, equal);
-  Noeud* fils = (Noeud*) malloc(sizeof(Noeud));
-  
-  Noeud* noeud_initial = creer_noeud(probleme->etat_initial, NULL, NULL, 
-                          heuristique(probleme, probleme->etat_initial));
-  
-  Liste* frontiere = creerListe(1, afficher, comparer); insererEnOrdre (frontiere, noeud_initial);
-  Liste* explore   = creerListe(0, etat_toString, comparer_etat);
-  
-  Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
-  
-  int i=0, j;
-  while(vrai){
-        j=0;
-		//Tester si la frontière est vide
-		if(frontiere->nbElt == 0){
-			printf("\nPas de solution !!!!!\n");
-			detruireListe(actions);
-			free(fils);
-			free(noeud_initial);
-			detruireListe(frontiere);
-			detruireListe(explore);
-			free(noeud);
-			break;
-		}
-		
-		//Choisit le noeud de la frontière avec le cout le plus faible
-		noeud = (Noeud*) extraireEnTeteDeListe(frontiere);
-		
-		//Tester si l'état du noeud choisit correspond à l'état de but
-		if (TEST_DE_BUT(probleme,noeud->etat)){
-			printf("\n Solution trouvé\n");
-			printf("\nLe chemin du solution est : \n");
-			printf("%s\n", afficher_solution(noeud));
-			detruireListe(actions);
-			free(fils);
-			free(noeud_initial);
-			detruireListe(frontiere);
-			detruireListe(explore);
-			free(noeud);
-			break;
-		}
-		//Ajouter l'etat de la noeud actual à l'ensemble des états explorés
-		insererEnFinDeListe(explore, (Objet*) noeud->etat);
-		
-		actions = ACTIONS(probleme, noeud->etat);
-		while(actions->nbElt > 0){
-		    printf("\n---------------------------\n");
-			fils = NOEUD_FILS(probleme, noeud, (Action) extraireEnTeteDeListe(actions));
-			insererEnOrdre(frontiere, fils);
-			printf("fils(%d,%d) => %s",i+1,j+1,afficher(fils));
-			printf("\n---------------------------\n");
-			j++;
-		}
-		i++;
-  }
-}
-*/
-
 void AEtoile(Probleme* probleme) {
     Liste* actions = NULL;
     Noeud* fils = NULL;
@@ -345,6 +312,8 @@ void AEtoile(Probleme* probleme) {
         }
         i++;
     }
+    
+    //Tester si la frontière est vide et aucun noeud exploré correspond à la solution
     if (!goal_found) {
         printf("\nPas de solution !!!!!\n");
     }
@@ -379,18 +348,16 @@ static Contour* EPL_CONTOUR(Probleme* probleme, Noeud* noeud, int f_limite){
 		res = EPL_CONTOUR(probleme, fils, f_limite);
 		
 		if (res->noeud != NULL) {
-			free(actions); free(fils);
+			detruireListe(actions);
 			return creer_Contour(res->noeud, f_limite);
 		}
 		
 		next_f = (next_f > res->next_f) ? res->next_f : next_f;
-		//free(fils); free(res);
+		free(fils); free(res);
 	}
-	//detruireListe(actions);
-	return creer_Contour(NULL, next_f);
-	
+	detruireListe(actions);
+	return creer_Contour(NULL, next_f);	
 }
-
 
 void IDAEtoile (Probleme* probleme){ 
 	Noeud* racine = creer_noeud(probleme->etat_initial, NULL, NULL, heuristique (probleme,probleme->etat_initial));
@@ -414,6 +381,32 @@ void IDAEtoile (Probleme* probleme){
 		}
 	}
 	free(racine); free(res);
+}
+
+
+Etat creer_etat() {
+	Etat a = (Etat) malloc(9 * sizeof(int));
+	
+    // reading input from user
+    char input[18]; // 9 numbers + 8 spaces + 1 \n
+    fgets(input, sizeof(input), stdin);
+    
+    // parsing input and storing values in array
+    char *token = strtok(input, " ");
+    int i = 0;
+    while (token != NULL && i < 9){
+        a[i]= atoi(token);
+        i++;
+        token = strtok(NULL, " ");
+    }
+    
+    // handling invalid input
+    if (i != 9) {
+        printf("Erreur: Entrez exactement 9 nombres entiers separes par des espaces.\n");
+        exit(1);
+    }
+    
+	return a;
 }
 
 

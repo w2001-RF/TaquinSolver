@@ -71,7 +71,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=taquin.h
+FileName=taquin.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -114,9 +114,6 @@ Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
-
-[Unit6]
-FileName=main.cpp
 
 [Unit1]
 FileName=liste.cpp
