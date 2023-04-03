@@ -17,7 +17,7 @@ int Menu(){
 }
 int main() {
 	
-	Probleme* probleme = (Probleme*) malloc(sizeof(probleme));
+	/*Probleme* probleme = (Probleme*) malloc(sizeof(probleme));
     Etat e = (Etat) malloc (9 * sizeof (int));
     int m[9] = {8,1,3,EMPTY_CASE,4,5,2,7,6};
     for (int i = 0; i < LIGNES; i++) for (int j = 0; j < COLONNES; j++) *(e + i * LIGNES + j) = m[i * LIGNES + j];
@@ -38,8 +38,8 @@ int main() {
     
     free(e);free(e1);
     free(probleme);
-  	
-  	/*Probleme* probleme = NULL;
+  	*/
+  	Probleme* probleme = NULL;
     while(vrai) {
     	switch(Menu()){
     		case 0:
@@ -83,6 +83,6 @@ int main() {
 	      	system("cls");
     	}
 	}
-    */
+    
 	return 0;
 }

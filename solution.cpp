@@ -388,6 +388,7 @@ Etat creer_etat() {
 	Etat a = (Etat) malloc(9 * sizeof(int));
 	
     // reading input from user
+    read:
     char input[18]; // 9 numbers + 8 spaces + 1 \n
     fgets(input, sizeof(input), stdin);
     
@@ -403,7 +404,7 @@ Etat creer_etat() {
     // handling invalid input
     if (i != 9) {
         printf("Erreur: Entrez exactement 9 nombres entiers separes par des espaces.\n");
-        exit(1);
+        goto read;
     }
     
 	return a;
