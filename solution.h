@@ -50,4 +50,5 @@ void     IDAEtoile (Probleme* probleme);
 
 
 Etat     creer_etat();
+Etat     creer_etat(char* str);
 #endif

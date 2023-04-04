@@ -133,8 +133,9 @@ static void matriceEtat(Etat e){
 }*/
 
 static char* afficher_solution(Noeud* solution) {
-    char* path = (char*) malloc(10*sizeof(char)); strcpy(path, "");
-    char* tmp  = (char*) malloc(10*sizeof(char));
+	int n = 31;
+    char* path = (char*) malloc(n*sizeof(char)); strcpy(path, "");
+    char* tmp  = (char*) malloc(n*sizeof(char));
     Noeud* noeud = solution;
     
     if (noeud == NULL) strcat(path,"Aucune solution trouvée!");
@@ -151,6 +152,11 @@ static char* afficher_solution(Noeud* solution) {
             //printf("\npath = %s\n",path);
             //printf("\ncurrent = 0x%0x , parent = 0x%0x",noeud, noeud->parent);
             noeud = noeud->parent;
+            n+=n;
+            tmp = (char*) realloc(tmp, n*sizeof(char));
+            strcpy(tmp, path);
+            path = (char*) realloc(path, n*sizeof(char));
+            strcpy(path, tmp);
         }
     }
     free(noeud);
@@ -393,6 +399,34 @@ Etat creer_etat() {
     read:
     char input[18]; // 9 numbers + 8 spaces + 1 \n
     fgets(input, sizeof(input), stdin);
+    
+    // parsing input and storing values in array
+    char *token = strtok(input, " ");
+    int i = 0;
+    while (token != NULL && i < 9){
+        a[i]= atoi(token);
+        i++;
+        token = strtok(NULL, " ");
+    }
+    
+    // handling invalid input
+    if (i != 9) {
+        printf("Erreur: Entrez exactement 9 nombres entiers separes par des espaces.\n");
+        goto read;
+    }
+    
+    //for(int i=0; i<9; i++) printf("%2d", a[i]);
+    
+	return a;
+}
+
+Etat creer_etat(const char* str){
+	Etat a = (Etat) malloc(9 * sizeof(int));
+	
+    // reading input from user
+    read:
+    char input[18];
+    strcpy(input, str);
     
     // parsing input and storing values in array
     char *token = strtok(input, " ");
