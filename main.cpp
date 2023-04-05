@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "solution.h"
-//#include "lireProbleme.h"
+#include "lireProbleme.h"
 
 int Menu(){
 	printf("\n**************************** Taquin solver ****************************\n");
@@ -14,12 +14,33 @@ int Menu(){
 	printf("5 - Detruire probleme.\n");
 	
 	printf("\n\nSaisir votre choix? ");
-	int choix; scanf("%d", &choix); getchar(); printf("\n");
+	int choix ; scanf("%d", &choix); getchar(); printf("\n");
 	return choix;
 }
+
+static char* matrice_toString (Etat e){
+  //27 caractères car pour un taquin de 3x3 on a 9 caractères + [ + ] + (, + espace) * 8  
+  char *str_etat = (char *) malloc (27*sizeof (char)); strcpy(str_etat, "");
+  if(e == NULL) { strcpy(str_etat,""); return str_etat;}
+  char int_str[2];
+
+  strcat (str_etat, "[");
+  for (int i = 0; i < LIGNES; i++)
+    {
+      for (int j = 0; j < COLONNES; j++)
+	{
+	  sprintf (int_str, "%d", e[i * LIGNES + j]);
+	  strcat (str_etat, int_str);
+	  if (i != LIGNES - 1 || j != COLONNES - 1) strcat (str_etat, ", ");
+	}
+    }
+  strcat (str_etat, "]");
+  return str_etat;
+}
+
 int main() {
 	
-	Probleme* probleme = (Probleme*) malloc(sizeof(probleme));
+	/*Probleme* probleme = (Probleme*) malloc(sizeof(probleme));
     Etat e = (Etat) malloc (9 * sizeof (int));
     int m[9] = {8,1,3,EMPTY_CASE,4,5,2,7,6};
     for (int i = 0; i < LIGNES; i++) for (int j = 0; j < COLONNES; j++) *(e + i * LIGNES + j) = m[i * LIGNES + j];
@@ -31,18 +52,30 @@ int main() {
     for (int i = 0; i < LIGNES; i++) for (int j = 0; j < COLONNES; j++) *(e1 + i * LIGNES + j) = m1[i * LIGNES + j];
     
     probleme->etat_but = e1;
-    
-    //Parcour A Etoile
-    AEtoile(probleme);
+    */
+    /*FILE* file;
+    file = fopen("taquin.txt", "r");
+	if(file == NULL) {
+		printf("\nErreur: Impossible d'ouvrir le fichier\n");
+	}
+	Probleme* probleme = lireProbleme (file);
+	printf("\nProbleme taquin bien lise\n");
+	fclose(file);
+	printf("\nEtat Initial est : %s\n", matrice_toString (probleme->etat_initial));
+    printf("\nEtat but     est : %s\n", matrice_toString (probleme->etat_but));
+	//Parcour A Etoile
+    AEtoile(probleme);*/
     
     //Parcour IDE
     //IDAEtoile(probleme);
     
-    free(e);free(e1);
-    free(probleme);
+    /*free(e);free(e1);
+    free(probleme);*/
   	
-  	/*Probleme* probleme = NULL;
+  	Probleme* probleme = NULL;
   	FILE* file;
+  	char nomfile[50];
+  	
     while(vrai) {
     	switch(Menu()){
     		case 0:
@@ -52,7 +85,7 @@ int main() {
     			if(probleme == NULL) probleme = (Probleme*) malloc(sizeof(probleme));
 				
 				fflush(stdin);
-				char[10] nomfile;
+				char nomfile[10];
 				printf("\nEntrer le nom du fichier : "); scanf("%s", nomfile);
 				file = fopen(nomfile, "r");
 				if(file == NULL) {
@@ -60,7 +93,7 @@ int main() {
 					break;
 				}
 				probleme = lireProbleme (file);
-				printf("\nProbleme taquin bien lisé\n");
+				printf("\nProbleme taquin bien lise\n");
 				fclose(file);
 				break;
     		case 2:
@@ -101,6 +134,6 @@ int main() {
 	      	system("cls");
     	}
 	}
-    */
+    
 	return 0;
 }

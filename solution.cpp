@@ -96,7 +96,7 @@ static int comparer(Objet* objet1, Objet* objet2){
 }
 
 static void matriceEtat(Etat e){
-  printf("\n--------------\n");
+  printf("\n--------------\n\n");
   if(e == NULL) { printf("NULL Taquin\n"); return ;}
   for (int i = 0; i < LIGNES; i++){
     for (int j = 0; j < COLONNES; j++){
@@ -104,6 +104,7 @@ static void matriceEtat(Etat e){
 	}
 	printf("\n");
   }
+  printf("\n--------------\n");
 }
 
 
